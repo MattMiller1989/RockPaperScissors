@@ -1,64 +1,81 @@
 <!DOCTYPE html>
 <html>
- 
+<div>
+    <button id="rock">rock</button>
+    <button id="paper">paper</button>
+    <button id="scissors">scissors</button>
+</div>
+<div id="currGame">results</div>
+<div id="allGame">allResults</div>
+
+</html>
 <script>
+
+
 const options=["rock","paper","scissors"];
-function game(){
-    function computerPlay(){
-        var choice= Math.floor(Math.random()*3);
-        return options[choice];
-    }
+const buttons=document.querySelectorAll('button');
+
+buttons.forEach((button)=>{
+    button.addEventListener('click',(e) => {
+    let playerChoice=button.id;
+    let computerChoice=computerPlay();
+    let result= playRound(playerChoice,computerChoice);
+    update(result,playerChoice,computerChoice);
+    });
+});
+    
+    
+function computerPlay(){
+    var choice= Math.floor(Math.random()*3);
+    return options[choice];
+}
     
 
-    function playRound(player,comp){
+function playRound(player, comp) {
 
-        if(player==comp){
-            return 'draw';
-        }else{
-            switch(true){
-                case ((player=='rock')&&(comp=='paper')):
-                    return 'lose';
-                case ((player=='rock')&&(comp=='scissors')):
-                    return 'win';
-                case ((player=='paper')&&(comp=='rock')):
-                    return 'win';
-                case ((player=='paper')&&(comp=='scissors')):
-                    return 'lose';
-                case ((player=='scissors')&&(comp=='rock')):
-                    return 'lose';
-                case ((player=='scissors')&&(comp=='paper')):
-                    return 'win';
-                default: return "incorrect val entered.. MORON";
-                    
+    if (player == comp) {
+        return 'draw';
+    } else {
+        switch (true) {
+            case ((player == 'rock') && (comp == 'paper')):
+                return 'lose';
+            case ((player == 'rock') && (comp == 'scissors')):
+                return 'win';
+            case ((player == 'paper') && (comp == 'rock')):
+                return 'win';
+            case ((player == 'paper') && (comp == 'scissors')):
+                return 'lose';
+            case ((player == 'scissors') && (comp == 'rock')):
+                return 'lose';
+            case ((player == 'scissors') && (comp == 'paper')):
+                return 'win';
+            default: return "incorrect val entered.. MORON";
 
-            }
+
         }
     }
-    var playerWin=0;
-    var tie=0;
-    var compWin=0;
-    for(var x=0;x<5;x++){
-        var playerChoice=window.prompt("rock, paper, scissors?");
-        var playerChoice=playerChoice.toLowerCase();
-        var computerChoice=computerPlay();
+}
+var playerWin=0;
+var tie=0;
+var compWin=0;
+const currGameContainer=document.querySelector('#currGame');
+const allGameContainer=document.querySelector('#allGame');
+function update(result,playerChoice,computerChoice){        
 
-        result=playRound(playerChoice,computerChoice);
-        if(result=='win'){
-            playerWin++;
-            
-        }
-        if(result=='lose'){
-            compWin++;
-        }
-        if(result=='draw'){
-            tie++;
-        }
-        console.log(`${result} Player chose ${playerChoice} and computer chose ${computerChoice} `);
-
+    if(result=='win'){
+        playerWin++;
         
     }
-    console.log(`Wins: ${playerWin} Losses: ${compWin} Draws: ${tie}`);
+    if(result=='lose'){
+        compWin++;
+    }
+    if(result=='draw'){
+        tie++;
+    }
+    currGameContainer.innerHTML=`${result} Player chose ${playerChoice} and computer chose ${computerChoice} `;
+    allGameContainer.innerHTML=`Wins: ${playerWin} Losses: ${compWin} Draws: ${tie}`;
 }
 
+
+
 </script>
-</html>
